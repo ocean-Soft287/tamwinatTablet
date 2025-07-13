@@ -1,0 +1,20 @@
+{
+ "getAllNoPrintOrders":"GetAll No Print Orders",
+  "getAllOrders":"Get All Orders",
+   "updateOrderStateByOrderNo" :"Update Order State By Order Number",
+   "prepare": "Prepare",
+   "start_delivery": "Start Delivery",
+   "under_delivery": "Under Delivery",
+   "startDeliver": "Send Order",
+
+  "preparing_order": "✅ Preparing the order",
+  "not_prepared": "⏳ Not yet prepared",
+  "delivery_started": "🚚 Delivery started",
+  "delivery_not_started": "⏳ Delivery not started yet",
+  "order_under_delivery": "📍 Order is under delivery",
+  "order_not_under_delivery": "⏳ Order is not under delivery yet",
+  "order_being_sent": "📦 Order is being sent",
+  "notstartDeliver": "⏳ Order not yet sent"
+
+
+}

@@ -1,0 +1,28 @@
+{
+  "getAllNoPrintOrders":"الطلبات التي لم يتم طباعتها",
+  "getAllOrders":"احصل على جميع الطلبات",
+   "updateOrderStateByOrderNo" :"تحديث حالة الطلب برقم الطلب" ,
+   "prepare": "تجهيز",
+   "delivered": "تم التوصيل",
+   "under_delivery": "جاري التوصيل",
+   "startDeliver": "تم استلام الطلب",
+
+
+
+
+   "start_Deliver_order":"✅ تم استلام اطلب",  
+   "not_start_Deliver_order": "❌ الطلب لم يُسلم بعد",
+
+   "preparing_order": "✅ جاري تجهيز الطلب",
+   "not_prepared": "❌ لم يتم التجهيز بعد",
+
+   "order_under_delivery": "✅ جاري التوصيل",
+   "order_not_under_delivery": "❌ لم يبدأ التوصيل بعد",
+
+   "delivered_order": "✅ تم التوصيل",
+   "not_delivered_order": "❌ الطلب لم يتم توصيله بعد"
+
+
+
+  
+}
