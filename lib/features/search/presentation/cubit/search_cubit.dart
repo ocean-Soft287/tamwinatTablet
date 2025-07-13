@@ -17,6 +17,8 @@ class SearchCubit extends Cubit<SearchState> {
   
   }
 
+
+
   // String? scannedValue;
 
   // void setScannedValue(String value) {

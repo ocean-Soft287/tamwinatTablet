@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:search_appp/core/network/Dio/manual_interceptor.dart';
 import 'api_consumer.dart';
 import 'endpoint.dart';
 
@@ -35,14 +36,7 @@ class DioConsumer extends ApiConsumer {
     );
 
     // Enable logging
-    dio.interceptors.add(LogInterceptor(
-      request: true,
-      requestHeader: true,
-      requestBody: true,
-      responseHeader: true,
-      responseBody: true,
-      error: true,
-    ));
+       dio.interceptors.add(ManualDioLogger());
   }
 
   @override

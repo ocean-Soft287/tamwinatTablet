@@ -1,5 +1,5 @@
 class Endpoint {
-  static String baseUrl ='http://37.34.242.173:9292/TheOneAPI/'; // TheOneAPITest //TheOneAPI // "http://51.91.6.70/TheOneApiElfarC/"; // "http://51.91.6.70/TheOneApiElfarM/";
+  static String baseUrl ='http://37.34.242.173:9292/TheOneAPITest/'; // TheOneAPITest //TheOneAPI // "http://51.91.6.70/TheOneApiElfarC/"; // "http://51.91.6.70/TheOneApiElfarM/";
     static String subBaseUrl = 'api/Order/';
   static String getAllNotPRintedOrders = '${subBaseUrl}GetAllNotPRintedOrders';
   static String getAllOrders = '${subBaseUrl}GetAllOrders';
