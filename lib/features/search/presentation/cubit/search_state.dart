@@ -1,3 +1,5 @@
+import 'package:search_appp/features/search/model/search_result.dart';
+
 abstract class SearchState {}
 
 class InitalizeSearchState extends SearchState {}
@@ -5,8 +7,8 @@ class InitalizeSearchState extends SearchState {}
 class SearchLoadingState extends SearchState {}
 
 class SearchSuccessState extends SearchState {
-  List<dynamic> message;
-  SearchSuccessState({required this.message});
+  List<ProductModel> products;
+  SearchSuccessState({required this.products});
 }
 
 class SearchErrorState extends SearchState {

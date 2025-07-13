@@ -4,9 +4,9 @@ class OrderItem {
   int? itemId;
   String? itemArMame;
   String? itemEnNAme;
-  dynamic? quantity;
-  dynamic? price;
-  dynamic? unitId;
+  dynamic quantity;
+  dynamic price;
+  dynamic unitId;
   String? unitArName;
   String? unitEnName;
   dynamic barCode;
@@ -45,9 +45,9 @@ class OrderItem {
         itemId: json['ItemID'] as int?,
         itemArMame: json['ItemArMame'] as String?,
         itemEnNAme: json['ItemEnNAme'] as String?,
-        quantity: json['Quantity'] as dynamic?,
+        quantity: json['Quantity'] as dynamic,
         price: (json['Price'] as num?)?.toDouble(),
-        unitId: json['UnitId'] as dynamic?,
+        unitId: json['UnitId'] as dynamic,
         unitArName: json['UnitArName'] as String?,
         unitEnName: json['UnitEnName'] as String?,
         barCode: json['BarCode'] as dynamic,
