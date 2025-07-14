@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_appp/core/error/error_page.dart';
@@ -59,7 +60,7 @@ class _GetAllNoPrintOrderScreenState extends State<GetAllNoPrintOrderScreen> {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: const Text('الطلبات التي لم يتم طباعتها'),
+title: Text('no_print_orders'.tr()),
           ),
           body: state is OrderSuccessState
               ?    _buildOrderList(state, context)

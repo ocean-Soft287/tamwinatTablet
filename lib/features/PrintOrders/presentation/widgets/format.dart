@@ -12,10 +12,10 @@ String formatDate(String? dateStr) {
 
   String formatValue(double? value) {
   if (value == null || value.isNaN) {
-    return '0.000 د.ك';
+    return '0.000 ${'currency_kwd'.tr()}';
   }
 
   // Always show 3 decimal places
   final formatter = NumberFormat("#,##0.000", "en");
-  return '${formatter.format(value)} د.ك';
+  return '${formatter.format(value)} ${'currency_kwd'.tr()}''}';
 }

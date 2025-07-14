@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart'; // <-- import easy_localization
 import 'package:search_appp/core/error/error_page.dart';
 import 'package:search_appp/features/PrintOrders/presentation/logic/cubit/order_cubit.dart';
 import 'package:search_appp/features/PrintOrders/presentation/logic/cubit/order_state.dart';
@@ -49,41 +49,47 @@ class _GetAllOrdersState extends State<GetAllOrders> {
           if (state is OrderLoadingState) {
             return Scaffold(
               backgroundColor: Colors.white,
-              appBar: AppBar(                title: const Text('احصل على جميع الطلبات'),
-elevation: 0, backgroundColor: Colors.white),
+              appBar: AppBar(
+                title: Text('get_all_orders'.tr()), // localized title
+                elevation: 0,
+                backgroundColor: Colors.white,
+              ),
               body: const Center(child: CircularProgressIndicator()),
             );
           }
 
           if (state is OrderErrorState) {
             return Scaffold(
-              appBar: AppBar(                title: const Text('احصل على جميع الطلبات'),
-),
-              body: ErrorStateWidget(errorMessage: state.error,onRetry: () => context.read<OrderCubit>().getAllOrders(),),
+              appBar: AppBar(
+                title: Text('get_all_orders'.tr()), // localized title
+              ),
+              body: ErrorStateWidget(
+                errorMessage: state.error,
+                onRetry: () => context.read<OrderCubit>().getAllOrders(),
+              ),
             );
           }
 
           if (state is OrderSuccessState) {
-            final allOrders = state.orderModel.reversed; 
-            // Limit the number of items shown initially
-            final displayedOrders = allOrders  .take(_itemsToShow).toList();
+            final allOrders = state.orderModel.reversed;
+            final displayedOrders = allOrders.take(_itemsToShow).toList();
 
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
-                title: const Text('احصل على جميع الطلبات'),
+                title: Text('get_all_orders'.tr()), // localized title
               ),
-              body: 
-              
-               ListView.builder(
+              body: ListView.builder(
                 controller: _scrollController,
                 itemCount: displayedOrders.length +
                     (_itemsToShow < allOrders.length ? 1 : 0), // +1 for loader
                 itemBuilder: (context, index) {
                   if (index < displayedOrders.length) {
-                    return OrderDetailsCard(order: displayedOrders[index],isNoPrintOrderPage: false);
+                    return OrderDetailsCard(
+                      order: displayedOrders[index],
+                      isNoPrintOrderPage: false,
+                    );
                   } else {
-                    // Show loading indicator at the end
                     return const Padding(
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: Center(child: CircularProgressIndicator()),
@@ -91,7 +97,6 @@ elevation: 0, backgroundColor: Colors.white),
                   }
                 },
               ),
-
             );
           }
 
@@ -100,5 +105,4 @@ elevation: 0, backgroundColor: Colors.white),
       ),
     );
   }
-
 }

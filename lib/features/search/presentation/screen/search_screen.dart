@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,108 +44,110 @@ class _SearchScreenState extends State<SearchScreen> {
                                                          Row(children: [
                                        InkWell(
                                    onTap: (){
-                                 
+
                                      Navigator.pop(context);
-                                 
+
                                    },
                                    child:Icon(Icons.arrow_back_ios,size: 20.sp,)
                                  )
-                                                         
+
                                                          ],)
                                                        ,   SizedBox(height: 25.h,)
                               ,
-                                   TextFormField(
-                               onTap: () async{
-                                     barcode = await SimpleBarcodeScanner.scanBarcode(
-                                       context,
-                                       barcodeAppBar: const BarcodeAppBar(
-                                         appBarTitle: 'Test',
-                                         centerTitle: false,
-                                         enableBackButton: true,
-                                         backButtonIcon: Icon(Icons.arrow_back_ios),
-                                       ),
-                                       isShowFlashIcon: true,
-                                       delayMillis: 500,
-                                       cameraFace: CameraFace.back,
-                                       scanFormat: ScanFormat.ONLY_BARCODE,
-                                     );
-                                     setState(() {
-                                       _searchController.text = barcode ?? "";
-                                     });
-                              
-                                     if (barcode != '-1' && barcode != null && mounted) {
-                                       setState(() {
-                                         _searchController.text = barcode!;
-                                       });
-                                       String trimmedBarcode = barcode!.trim();
-                              
-                                      context.read<SearchCubit>()                         .getSearch(search: trimmedBarcode);
-                                    
-                                     } else {
-                                                                context.read<SearchCubit>()                         .getSearch(search: 'trimmedBarcode');
-                              
-                                       setState(() {
-                                         _searchController.text = "الباركود غير صحيح";
-                                       });
-                                     }
-                                  
-                                 
-                               },
-                               controller: _searchController,
-                                              
-                               decoration: InputDecoration(
-                               suffixIcon:_searchController.text.isNotEmpty?  IconButton(onPressed: (){
-                                 _searchController.clear();
-                                 setState(() {
-                                   _searchController.text = "";
-                                 });
-                               }, icon: const Icon(Icons.close)):null,
-                                
-                                             
-                                 hintText: ' ابحث بالباركود ',
-                                 border: OutlineInputBorder(
-                                   borderRadius: BorderRadius.circular(5.0),
-                                 ),
-                                 contentPadding:
-                                     const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                               ),
-                                              ),
-                                                        SizedBox(height: 25.h,),
-                                    SearchByName(controller: _searchbyTextController,),
-                                         
+                               //     TextFormField(
+                               // onTap: () async{
+                               //       barcode = await SimpleBarcodeScanner.scanBarcode(
+                               //         context,
+                               //         barcodeAppBar: const BarcodeAppBar(
+                               //           appBarTitle: 'Test',
+                               //           centerTitle: false,
+                               //           enableBackButton: true,
+                               //           backButtonIcon: Icon(Icons.arrow_back_ios),
+                               //         ),
+                               //         isShowFlashIcon: true,
+                               //         delayMillis: 500,
+                               //         cameraFace: CameraFace.back,
+                               //         scanFormat: ScanFormat.ONLY_BARCODE,
+                               //       );
+                               //       setState(() {
+                               //         _searchController.text = barcode ?? "";
+                               //       });
+                               //
+                               //       if (barcode != '-1' && barcode != null && mounted) {
+                               //         setState(() {
+                               //           _searchController.text = barcode!;
+                               //         });
+                               //         String trimmedBarcode = barcode!.trim();
+                               //
+                               //        context.read<SearchCubit>()                         .getSearch(search: trimmedBarcode);
+                               //
+                               //       } else {
+                               //                                  context.read<SearchCubit>()                         .getSearch(search: 'trimmedBarcode');
+                               //
+                               //         setState(() {
+                               //           _searchController.text = 'invalidBarcode'.tr();
+                               //         });
+                               //       }
+                               //
+                               //
+                               // },
+                               // controller: _searchController,
+                               //
+                               // decoration: InputDecoration(
+                               // suffixIcon:_searchController.text.isNotEmpty?  IconButton(onPressed: (){
+                               //   _searchController.clear();
+                               //   setState(() {
+                               //     _searchController.text = "";
+                               //   });
+                               // }, icon: const Icon(Icons.close)):null,
+                               //
+                               //
+                               //   hintText:'searchByBarcode'.tr(),
+                               //   border: OutlineInputBorder(
+                               //     borderRadius: BorderRadius.circular(5.0),
+                               //   ),
+                               //   contentPadding:
+                               //       const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                               // ),
+                               //                ),
+                               //                          SizedBox(height: 25.h,),
+                                 SearchByName(controller: _searchbyTextController,title: 'search_by_name'.tr(),),
+
+
                                  (state is SearchLoadingState) ?
                               Padding(
                                 padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height/3),
                                 child: const Center(child: CircularProgressIndicator(),),
                               ):
-                                     
+
                                  Padding(
                                    padding: const EdgeInsets.all(8.0),
                                    child: (BlocProvider.of<SearchCubit>(context)
                                            .searchDataList
                                            .isEmpty)
-                                       ? const Padding(
-                                         padding: EdgeInsets.only(top:  50),
-                                         child: Text('لا يوجد نتائج'),
+                                       ?  Padding(
+                                         padding: const EdgeInsets.only(top:  50),
+                                         child: Text('noResultsFound'.tr()),
                                        ):
-                                     
-                                                        
+
+
                                                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: BlocProvider.of<SearchCubit>(context)
-                                           .searchDataList.length,
-                              itemBuilder: (context, index) {
-                                final product = BlocProvider.of<SearchCubit>(context)
-                                           .searchDataList[index];
-                                                       
-                                return 
-                                 SearchItemCard(product: product);
-                                                        
-                              },
-                                                       )
-                                        
+                                                           shrinkWrap: true,
+                                                                                     //  shrinkWrap: true,
+                                                                                       itemCount: BlocProvider.of<SearchCubit>(context)
+                                                                                                    .searchDataList.length,
+                                                                                       itemBuilder: (context, index) {
+                                                                                         final product = BlocProvider.of<SearchCubit>(context)
+                                                                                                    .searchDataList[index];
+
+                                                                                         return
+                                                                                          SearchItemCard(product: product);
+
+                                                                                       },
+                                                                                                                )
+
                                  ),
-                                                         
+
                                ],
                                               ),
                             ),

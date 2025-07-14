@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:search_appp/core/routes/routes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,8 +9,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          TextButton(onPressed: (){
+            final newLocale = context.locale == const Locale('ar')
+                ? const Locale('en')
+                : const Locale('ar');
+            context.setLocale(newLocale);
+          }, child: Text('language'.tr(),style: TextStyle(color: Colors.white),),)
+        ],
         automaticallyImplyLeading: false,
-        title: const Text('الصفحة الرئيسية'),
+        title: Text('home_title'.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -18,10 +27,9 @@ class HomeScreen extends StatelessWidget {
             _buildActionItem(
               context,
               icon: Icons.search,
-              title: 'بحث',
-              subtitle: 'البحث عن طلب',
+              title: 'search'.tr(),
+              subtitle: 'search_subtitle'.tr(),
               onTap: () {
-                // Navigate to search screen or show dialog
                 Navigator.pushNamed(context, Routes.search);
               },
             ),
@@ -29,10 +37,9 @@ class HomeScreen extends StatelessWidget {
             _buildActionItem(
               context,
               icon: Icons.list_alt,
-              title: 'عرض جميع الطلبات',
-              subtitle: 'استرجاع كل الطلبات',
+              title: 'all_orders'.tr(),
+              subtitle: 'all_orders_subtitle'.tr(),
               onTap: () {
-                // Fetch all orders
                 Navigator.pushNamed(context, Routes.getAllOrders);
               },
             ),
@@ -40,10 +47,9 @@ class HomeScreen extends StatelessWidget {
             _buildActionItem(
               context,
               icon: Icons.print_rounded,
-              title: 'عرض الطلبات غير المطبوعة',
-              subtitle: 'استرجاع الطلبات التي لم تُطبع',
+              title: 'no_print_orders'.tr(),
+              subtitle: 'no_print_orders_subtitle'.tr(),
               onTap: () {
-                // Fetch not printed orders
                 Navigator.pushNamed(context, Routes.getAllNoPrintOrderScreen);
               },
             ),

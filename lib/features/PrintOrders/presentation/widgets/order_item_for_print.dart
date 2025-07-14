@@ -1,3 +1,6 @@
+// ignore_for_file: unnecessary_string_interpolations
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:search_appp/features/PrintOrders/Data/models/print_order_model/order_item.dart';
@@ -18,7 +21,7 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
 
   @override
   Widget build(BuildContext context) {
-    final formatCurrency = NumberFormat.currency(locale: 'en', symbol: 'د.ك ');
+    final formatCurrency = NumberFormat.currency(locale: 'en', symbol: '${'currency_kwd'.tr()}');
 
     return  Padding(
       padding: const EdgeInsets.all(10.0),
@@ -36,9 +39,11 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  
                    Column(
                                 children: [
-                      Text('رقم الطلب: ${widget.order.orderNo ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold),),
-                      Text('الفرع: ${widget.order.branchId ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold)),
+
+                      Text('${'order_number'.tr()}: ${widget.order.orderNo ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold),),
+                      Text('${'branch'.tr()}: ${widget.order.branchId ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold)),
             
+              
                ],
                    ),
                
@@ -48,12 +53,12 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  // Customer Info
                  ListTile(
                    leading: const Icon(Icons.person),
-                   title: Text('العميل: ${widget.order.customerName ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold),),
+                   title: Text('${'customer'.tr()}: ${widget.order.customerName ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold),),
                    subtitle: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
                     //   Text('الاسم الإنجليزي: ${widget.order.customerEnName ?? '-'}'),
-                       Text('الهاتف: ${widget.order.customerPhone ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                       Text('${'phone'.tr()}: ${widget.order.customerPhone ?? '-'}',style: const TextStyle(fontWeight: FontWeight.bold)),
                      ],
                    ),
                  ),
@@ -63,9 +68,9 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  // Dates
                  ListTile(
                    leading: const Icon(Icons.calendar_today),
-                   title: Text('تاريخ الطلب: ${formatDate(widget.order.orderDate)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                   title: Text('${'order_date'.tr()}: ${formatDate(widget.order.orderDate)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                    subtitle:
-                       Text('تاريخ التوصيل: ${formatDate(widget.order.deliveryDate)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                       Text('${'delivery_date'.tr()}: ${formatDate(widget.order.deliveryDate)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                  ),
          
                  const Divider(),
@@ -73,16 +78,16 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  // Order Summary
                  ListTile(
                    title: Text(
-                       'القيمة: ${formatValue(widget.order.totalValue)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                       '${'value'.tr()}: ${formatValue(widget.order.totalValue)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                    subtitle: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
                        Text(
-                           'الإضافات: ${formatValue(widget.order.additions)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                           '${'additions'.tr()}: ${formatValue(widget.order.additions)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                        Text(
-                           'الخصم: ${formatValue(widget.order.discount)}'),
+                           '${'discount'.tr()}: ${formatValue(widget.order.discount)}'),
                        Text(
-                           'الإجمالي النهائي: ${formatValue(widget.order.finalValue)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                           '${'final_total'.tr()}: ${formatValue(widget.order.finalValue)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                      ],
                    ),
                  ),
@@ -93,7 +98,7 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  if (widget.order.orderAddress != null && widget.order.orderAddress!.isNotEmpty)
                    ListTile(
                      leading: const Icon(Icons.location_on),
-                     title: const Text('عنوان التوصيل',style:  TextStyle(fontWeight: FontWeight.bold)),
+                     title:  Text('delivery_address'.tr(),style:  const TextStyle(fontWeight: FontWeight.bold)),
                      subtitle: Text(widget.order.orderAddress!,style: const TextStyle(fontWeight: FontWeight.bold)),
                    ),
          
@@ -103,9 +108,9 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                  // Payment Info
                  ListTile(
                    title: Text(
-                       'طريقة الدفع: ${widget.order.payId == 0 ? 'نقداً' : 'تحويل'}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                       '${'payment_method'.tr()}: ${widget.order.payId == 0 ? 'cash'.tr() : 'transfer'.tr()}',style: const TextStyle(fontWeight: FontWeight.bold)),
                    subtitle: Text(
-                       'المبلغ المدفوع: ${formatValue(widget.order.payValue,)}',style: const TextStyle(fontWeight: FontWeight.bold)),
+                       '${'paid_amount'.tr()}: ${formatValue(widget.order.payValue,)}',style: const TextStyle(fontWeight: FontWeight.bold)),
                  ),
          
                  const Divider(),
@@ -115,7 +120,7 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                    ExpansionTile(
                     
                     initiallyExpanded: true,
-                     title: const Text('قائمة المنتجات',style:  TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+                     title:  Text('${'product_list'.tr()}',style:  const TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
                      children: widget.order.orderItems!
                          .map((item) => _buildOrderItem(context, item))
                          .toList(),
@@ -155,7 +160,7 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
                 Column(
                   children: [
                     Text(
-                        'الكمية: ${item.quantity ?? 0} ${item.unitArName ?? ''} ',
+                        '${'quantity'.tr()}: ${item.quantity ?? 0} ${item.unitArName ?? ''} ',
                         textAlign: TextAlign.center,style: const TextStyle(fontWeight: FontWeight.bold),),
                                  
                      Text(

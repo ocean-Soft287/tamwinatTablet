@@ -23,8 +23,8 @@ await NotificationsService.init();
 
   runApp(EasyLocalization(    supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translations',
-      startLocale: const Locale('ar'),
-      fallbackLocale: const Locale('ar'),  child: MyApp(appRoutes: AppRoutes())));
+      startLocale: const Locale('en'),
+      fallbackLocale: const Locale('en'),  child: MyApp(appRoutes: AppRoutes())));
 
 }
 
