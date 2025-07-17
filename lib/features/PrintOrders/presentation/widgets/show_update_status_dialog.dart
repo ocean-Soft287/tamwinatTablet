@@ -15,7 +15,7 @@ void showUpdateStatusDialog(BuildContext context, String orderNo,bool isNoPrintO
   showDialog(
     context: context,
     builder: (contextbuilder) => SimpleDialog(
-      title: const Text('اختر حالة الطلب'),
+      title:  Text('select_order_status'.tr()),
       children: statusOptions.map((option) {
         return ListTile(
           title: Text(option.tr()),

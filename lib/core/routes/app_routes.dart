@@ -46,7 +46,7 @@ class AppRoutes {
 
       case Routes.search:
         return MaterialPageRoute(
-          builder: (context) => SearchScreen(),
+          builder: (context) => SearchScreen(keyword: '',),
         );
 
       default:

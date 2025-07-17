@@ -7,6 +7,7 @@ import 'package:search_appp/features/PrintOrders/Data/models/print_order_model/o
 import 'package:search_appp/features/PrintOrders/Data/models/print_order_model/print_order_model.dart';
 import 'package:search_appp/features/PrintOrders/presentation/logic/cubit/order_cubit.dart';
 import 'package:search_appp/features/PrintOrders/presentation/widgets/show_update_status_dialog.dart';
+import 'package:search_appp/features/search/presentation/screen/search_screen.dart';
 
 import '../../../../core/methods/convert_address.dart';
 
@@ -47,9 +48,12 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                 Row(
                   children: [
                     InkWell(
-                      onTap: () => context
+                      onTap: () =>
+                          context
                           .read<OrderCubit>()
                           .updateOrderStateOrderNo(id: widget.order.orderNo.toString()),
+                          
+                    
                       child: Row(
                         children: [
                           SizedBox(width: 10.w),
@@ -223,52 +227,55 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
   }
 
   Widget _buildOrderItem(BuildContext context, OrderItem item) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(item.itemId.toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(width: 10),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector( 
+      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchScreen(keyword: item.itemArMame!)) ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(item.itemId.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text( item.itemArMame??'-' ,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      Text(item.itemEnNAme ?? '-',
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.bold)),
+      
+                    ],
+                  ),
+                ),
+                Column(
                   children: [
-                    Text( item.itemArMame??'-' ,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(item.itemEnNAme ?? '-',
-                        style: TextStyle(
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.bold)),
-
+                    Text(
+                      '${'quantity'.tr()}: ${item.quantity ?? 0} ${ context.locale == const Locale('en')?item.unitEnName :  item.unitArName ?? ''}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      formatValue(item.price),
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
-              ),
-              Column(
-                children: [
-                  Text(
-                    '${'quantity'.tr()}: ${item.quantity ?? 0} ${ context.locale == const Locale('en')?item.unitEnName :  item.unitArName ?? ''}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    formatValue(item.price),
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Container(height: 2, color: Colors.grey),
-        ],
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(height: 2, color: Colors.grey),
+          ],
+        ),
       ),
     );
   }

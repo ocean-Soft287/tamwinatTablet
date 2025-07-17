@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:search_appp/features/search/model/search_result.dart';
 import 'package:search_appp/features/search/presentation/screen/widget/text_field.dart';
@@ -15,6 +14,8 @@ class SearchItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 7,
+      shadowColor: Colors.grey.shade400,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.all(12.0),

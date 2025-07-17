@@ -6,6 +6,9 @@ class Endpoint {
   static String updateOrderStateByOrderNo({required String id}) =>
       '${subBaseUrl}UpdateOrderState?orderNo=$id';
   static String search({required String search}) => 'api/Product/SearchProductByBarcode?Barcode=$search';
+  static String searchbykeyword ({required String searchKey})=>
+      "${baseUrl}api/Product/SearchProducts?searchKey=$searchKey";
+
   static String addToken({required String id}) =>
       '${baseUrl}api/Tokens/AddToken?token=$id';
   static String upadteOrderState({required String orderNo, required String orderType }) =>

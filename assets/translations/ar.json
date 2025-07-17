@@ -44,10 +44,12 @@
   "branch": "الفرع",
   "update": "تحديث",
   "closed": "مغلق",
+  "select_order_status":"حدد حالة الطلب",
+  "the_request_was_updated_successfully":"تم تحديث الطلب بنجاح",
   "marked_as_printed": "تمميز الطلب كمطبوع",
   "order_locked_message": "هذا الطلب مغلق ولا يمكن تعديله أو طباعته",
   "order_editable_message": "يمكن تعديل هذا الطلب أو طباعته",
-
+  "get_all_orders": "عرض جميع الطلبات",
  "barcodeScannerTitle": "الماسح الضوئي للباركود",
   "searchByBarcode": "ابحث بالباركود",
   "invalidBarcode": "الباركود غير صحيح",
