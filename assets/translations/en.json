@@ -21,7 +21,7 @@
   "item_qty": "Item Quantity",
   "item_price": "Price",
   "not_available": "Not Available",
-  "search_by_name": "Search by Item Name or Code",
+  "search_by_name": "Search by Item Code",
     "order_number": "Order No",
   "branch": "Branch",
   "customer": "Customer",
@@ -59,7 +59,6 @@
   "all_orders_subtitle": "Retrieve all orders",
   "no_print_orders": "Unprinted Orders",
   "no_print_orders_subtitle": "Retrieve orders not yet printed",
-
  "start_Deliver_order": "✅ Order received",
  "not_start_Deliver_order": "❌ Order not delivered yet",
  "language": "Language(EN)",

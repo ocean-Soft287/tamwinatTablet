@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:search_appp/core/network/Dio/api_consumer.dart';
 import 'package:search_appp/core/network/Dio/dio_consumer.dart';
 import 'package:search_appp/core/network/Dio/encrupt.dart';
@@ -31,10 +29,10 @@ class SearchRemoteDataSourceImp extends SearchRemoteDataSource{
        final list = json.decode(decryptedText) as List<dynamic>;
        final list2 = json.decode(decryptedText2) as List<dynamic>;
        final List<ProductModel> data = list.map((item) => ProductModel.fromJson(item)).toList();
-      final List<ProductModel> data2 = list2.map((item) => ProductModel.fromJson(item)).toList();
-     if(data.isEmpty){
-       return Right(data2);
-     }
+     final List<ProductModel> data2 = list2.map((item) => ProductModel.fromJson(item)).toList();
+      if(data.isEmpty){
+        return Right(data2);
+      }
       return Right(data);
     } on DioException catch (e) {
       return Left(e.message.toString());

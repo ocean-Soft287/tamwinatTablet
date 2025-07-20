@@ -50,7 +50,7 @@ Map<String, dynamic> delivery = {
     result.fold((l) => emit(UpdateOrderStateFailedState(error: l)),
         (r) { 
           emit(UpdateOrderStateSuccessState( ));
-          Fluttertoast.showToast(msg: "تم تحديث الطلب بنجاح");
+          Fluttertoast.showToast(msg: 'the_request_was_updated_successfully'.tr());
         
                 if(isNoPrintOrderPage){
              getAllNotPRintedOrders();

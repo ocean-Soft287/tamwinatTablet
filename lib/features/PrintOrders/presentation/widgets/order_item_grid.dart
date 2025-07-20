@@ -228,7 +228,7 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
 
   Widget _buildOrderItem(BuildContext context, OrderItem item) {
     return GestureDetector( 
-      onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchScreen(keyword: item.itemArMame!)) ),
+   //   onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchScreen(keyword: item.itemArMame!)) ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(

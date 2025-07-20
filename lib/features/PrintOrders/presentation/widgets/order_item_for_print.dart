@@ -29,7 +29,7 @@ class _OrderItemForPrintState extends State<OrderItemForPrint> {
            elevation: 4,
            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
            child: Padding(
-             padding: const EdgeInsets.all(16.0),
+             padding: const EdgeInsets.all(0.0),
              child: ListView(
                shrinkWrap: true,
                physics: const NeverScrollableScrollPhysics(),
