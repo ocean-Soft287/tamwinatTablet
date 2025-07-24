@@ -7,6 +7,7 @@ import 'package:search_appp/features/search/presentation/screen/widget/search_by
 import 'package:search_appp/features/search/presentation/screen/widget/search_item_card.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sunmi_scanner/sunmi_scanner.dart';
 import '../cubit/search_cubit.dart';
 import '../cubit/search_state.dart';
 
@@ -62,188 +63,74 @@ class _SearchScreenState extends State<SearchScreen> {
 
            Scaffold(
             backgroundColor: Colors.white,
+appBar: AppBar(
+  elevation: 0,
+  backgroundColor: Colors.white,
+  leading: InkWell(
+                  onTap: () {
+                    SunmiScanner.onBarcodeScanned().listen((scannedValue) {
+                      BlocProvider.of<SearchCubit>(context)
+                          .getSearch(search: scannedValue);
+                    });
+                  },
+                  child: const Icon(Icons.camera, color: Colors.black)),
+  title:    SearchByName(controller: _searchController, title: 'search_by_name'.tr(), callback: (String text) {
+                  context.read<SearchCubit>().getSearch(search: _searchController.text);
+                },)
+             ,
 
-            body:SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    Row(children: [
-                      InkWell(
-                          onTap: (){
+            ),
 
-                            Navigator.pop(context);
 
+            body:Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+        
+                        BlocBuilder<SearchCubit, SearchState>(
+                    builder: (context, state) {
+                    if  (state is SearchLoadingState) {
+                      return   Padding(
+                        padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height/3),
+                        child: const Center(child: CircularProgressIndicator(),),
+                      );
+                    }
+            
+                      return  (BlocProvider.of<SearchCubit>(context)
+                          .searchDataList
+                          .isEmpty)
+                          ?  Padding(
+                        padding: const EdgeInsets.only(top:  50),
+                        child: Text('noResultsFound'.tr()),
+                      ):
+            
+            
+                      Expanded(
+                        child: ListView.builder(
+                          //  shrinkWrap: true,
+                          itemCount: BlocProvider.of<SearchCubit>(context)
+                              .searchDataList.length,
+                          itemBuilder: (context, index) {
+                            final product = BlocProvider.of<SearchCubit>(context)
+                                .searchDataList[index];
+            
+                            return
+                              SearchItemCard(product: product);
+            
                           },
-                          child:Icon(Icons.arrow_back_ios,size: 20.sp,)
-                      )
-
-                    ],)
-                    ,   SizedBox(height: 25.h,)
-                    ,
-                    /// Search Using Barcode
-                    //     TextFormField(
-                    // onTap: () async{
-                    //       barcode = await SimpleBarcodeScanner.scanBarcode(
-                    //         context,
-                    //         barcodeAppBar: const BarcodeAppBar(
-                    //           appBarTitle: 'Test',
-                    //           centerTitle: false,
-                    //           enableBackButton: true,
-                    //           backButtonIcon: Icon(Icons.arrow_back_ios),
-                    //         ),
-                    //         isShowFlashIcon: true,
-                    //         delayMillis: 500,
-                    //         cameraFace: CameraFace.back,
-                    //         scanFormat: ScanFormat.ONLY_BARCODE,
-                    //       );
-                    //       setState(() {
-                    //         _searchbarcodeSacannerController.text = barcode ==null || barcode == '-1'? "3614271969545":barcode!;
-                    //       });
-                    //
-                    //       setState(() {
-                    //         _searchbarcodeSacannerController.text = barcode!;
-                    //       });
-                    //       String trimmedBarcode = barcode!.trim();
-                    //
-                    //
-                    //       if (barcode != '-1' && barcode != null && mounted) {
-                    //
-                    //         context.read<SearchCubit>()
-                    //             .getSearch(search:  _searchbarcodeSacannerController.text);
-                    //
-                    //
-                    //       } else {
-                    //         context.read<SearchCubit>()
-                    //             .getSearch(search:  _searchbarcodeSacannerController.text);
-                    //
-                    //         setState(() {
-                    //           _searchController.text = 'invalidBarcode'.tr();
-                    //         });
-                    //       }
-                    //
-                    //
-                    // },
-                    //
-                    // controller: _searchbarcodeSacannerController,
-                    //
-                    // decoration: InputDecoration(
-                    // suffixIcon:_searchController.text.isNotEmpty?  IconButton(onPressed: (){
-                    //   _searchController.clear();
-                    //   setState(() {
-                    //     _searchController.text = "";
-                    //   });
-                    // }, icon: const Icon(Icons.close)):null,
-                    //
-                    //
-                    //   hintText:'searchByBarcode'.tr(),
-                    //   border: OutlineInputBorder(
-                    //     borderRadius: BorderRadius.circular(5.0),
-                    //   ),
-                    //   contentPadding:
-                    //       const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
-                    // ),
-                    //                ),
-                    //
-                    IconButton(
-                      icon: Icon(Icons.camera_alt, size: 30.sp),
-                      tooltip: 'Scan Barcode',
-                      onPressed: () async {
-                        barcode = await SimpleBarcodeScanner.scanBarcode(
-                          context,
-                          barcodeAppBar: const BarcodeAppBar(
-                            appBarTitle: 'Barcode Scanner',
-                            centerTitle: false,
-                            enableBackButton: true,
-                            backButtonIcon: Icon(Icons.arrow_back_ios),
-                          ),
-                          isShowFlashIcon: true,
-                          delayMillis: 500,
-                          cameraFace: CameraFace.back,
-                          scanFormat: ScanFormat.ONLY_BARCODE,
-                        );
-
-                        if (!mounted) return;
-
-                        String scanned = (barcode == null || barcode == '-1')
-                            ? ""
-                            : barcode!;
-
-                     WidgetsBinding.instance.addPostFrameCallback((_){
-
-                     //    _searchController.text = scanned;
-                         context.read<SearchCubit>().getSearch(search:     scanned);
-
-
-
-
-                     });
-                      },
-                    ),
-
-                    SizedBox(height: 25.h,),
-
-                  /// Search USing  Item Code ID  (رمز الصنف)
-                  SearchByName(controller: _searchController, title: 'search_by_name'.tr(), callback: (String text) {
-                    context.read<SearchCubit>().getSearch(search: _searchController.text);
-                  },)
-                 ,const SizedBox(height: 10,)
-                 /// Search USing BarCode
-
-                ,
-                 // SearchByBarcode(controller: _searchbyTextController,
-                 // title:'searchByBarcode'.tr(),
-                 // callback: (String text) {
-                 //   context.read<SearchCubit>().getSearchkeyword(search: _searchbyTextController.text);
-                 // })
-                 //    ,
-                    const SizedBox(height: 15,)
-
-           , BlocBuilder<SearchCubit, SearchState>(
-                      builder: (context, state) {
-                      if  (state is SearchLoadingState) {
-                        return   Padding(
-                          padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height/3),
-                          child: const Center(child: CircularProgressIndicator(),),
-                        );
-                      }
-
-                        return  (BlocProvider.of<SearchCubit>(context)
-                            .searchDataList
-                            .isEmpty)
-                            ?  Padding(
-                          padding: const EdgeInsets.only(top:  50),
-                          child: Text('noResultsFound'.tr()),
-                        ):
-
-
-                        Expanded(
-                          child: ListView.builder(
-                            //  shrinkWrap: true,
-                            itemCount: BlocProvider.of<SearchCubit>(context)
-                                .searchDataList.length,
-                            itemBuilder: (context, index) {
-                              final product = BlocProvider.of<SearchCubit>(context)
-                                  .searchDataList[index];
-
-                              return
-                                SearchItemCard(product: product);
-
-                            },
-                          ),
-                        );
-
-
-
-
-
-                      },
-                    ),
-
-
-
-                  ],
-                ),
+                        ),
+                      );
+            
+            
+            
+            
+            
+                    },
+                  ),
+            
+            
+            
+                ],
               ),
             )));
 
@@ -255,3 +142,219 @@ class _SearchScreenState extends State<SearchScreen> {
 
 }
 
+// import 'dart:async';
+
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:search_appp/features/search/presentation/screen/widget/text_field.dart';
+// import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+// import 'package:sunmi_scanner/sunmi_scanner.dart';
+// import '../cubit/search_cubit.dart';
+// import '../cubit/search_state.dart';
+
+// class SearchScreen extends StatefulWidget {
+//   SearchScreen({super.key});
+
+//   @override
+//   State<SearchScreen> createState() => _SearchScreenState();
+// }
+
+// class _SearchScreenState extends State<SearchScreen> {
+//   final TextEditingController _searchController = TextEditingController();
+
+//   String? barcode;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (context) => SearchCubit(),
+//       child: BlocConsumer<SearchCubit, SearchState>(
+//         listener: (context, state) {},
+//         builder: (context, state) {
+//           return Scaffold(
+//             backgroundColor: Colors.white,
+//             appBar: AppBar(
+//               backgroundColor: Colors.white,
+//               elevation: 0.0,
+//               title: Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: TextFormField(
+//                   onTap: () async{
+                        
+
+
+//                         barcode = await SimpleBarcodeScanner.scanBarcode(
+//                           context,
+//                           barcodeAppBar: const BarcodeAppBar(
+//                             appBarTitle: 'Test',
+//                             centerTitle: false,
+//                             enableBackButton: true,
+//                             backButtonIcon: Icon(Icons.arrow_back_ios),
+//                           ),
+//                           isShowFlashIcon: true,
+//                           delayMillis: 500,
+//                           cameraFace: CameraFace.back,
+//                           scanFormat: ScanFormat.ONLY_BARCODE,
+//                         );
+//                         setState(() {
+//                           _searchController.text = barcode ?? "";
+//                         });
+
+//                         if (barcode != '-1' && barcode != null && mounted) {
+//                           setState(() {
+//                             _searchController.text = barcode!;
+//                           });
+//                           String trimmedBarcode = barcode!.trim();
+
+//                          context.read<SearchCubit>()                         .getSearch(search: trimmedBarcode);
+                       
+//                         }
+                     
+                    
+//                   },
+//                   controller: _searchController,
+//                   onChanged: (text) {
+//                     Timer(const Duration (seconds: 1), (){
+//                         context.read<SearchCubit>() .getSearch(search: text);
+                       
+//                     });
+//                   },
+//                   decoration: InputDecoration(
+//                     suffixIcon: IconButton(
+//                       onPressed:
+//                        () async
+//                         {
+
+
+//                         barcode = await SimpleBarcodeScanner.scanBarcode(
+//                           context,
+//                           barcodeAppBar: const BarcodeAppBar(
+//                             appBarTitle: 'Test',
+//                             centerTitle: false,
+//                             enableBackButton: true,
+//                             backButtonIcon: Icon(Icons.arrow_back_ios),
+//                           ),
+//                           isShowFlashIcon: true,
+//                           delayMillis: 500,
+//                           cameraFace: CameraFace.back,
+//                           scanFormat: ScanFormat.ONLY_BARCODE,
+//                         );
+//                         setState(() {
+//                           _searchController.text = barcode ?? "";
+//                         });
+
+//                         if (barcode != '-1' && barcode != null && mounted) {
+//                           setState(() {
+//                             _searchController.text = barcode!;
+//                           });
+//                           String trimmedBarcode = barcode!.trim();
+
+//                          context.read<SearchCubit>()                         .getSearch(search: trimmedBarcode);
+                       
+//                         }
+//                       },
+                    
+//                       icon: const Icon(Icons.camera_alt),
+//                     ),
+//                     hintText: '',
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(5.0),
+//                     ),
+//                     contentPadding:
+//                         const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+//                   ),
+//                 ),
+//               ),
+//               leading: InkWell(
+//                   onTap: () {
+//                     SunmiScanner.onBarcodeScanned().listen((scannedValue) {
+//                       BlocProvider.of<SearchCubit>(context)
+//                           .getSearch(search: scannedValue);
+//                     });
+//                   },
+//                   child: const Icon(Icons.camera, color: Colors.black)),
+//             ),
+//             body: SingleChildScrollView(
+//               physics: const BouncingScrollPhysics(),
+//               child: Column(
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.all(8.0),
+//                     child: (BlocProvider.of<SearchCubit>(context)
+//                             .searchDataList
+//                             .isEmpty)
+//                         ? Container()
+//                         : (state is SearchSuccessState)
+//                             ? Column(
+//                                 children: [
+//                                   Container(
+//                                       color: Colors.white,
+//                                       height: 150.h,
+//                                       width: MediaQuery.of(context).size.width,
+//                                       child: Image.network(
+//                                           BlocProvider.of<SearchCubit>(context)
+//                                                   .searchDataList[0]
+//                                             .productImage ??""
+//                                               )),
+//                                   ItemCard(
+//                                     labelText: 'اسم الصنف/Item Name',
+//                                     text:
+//                                         '${BlocProvider.of<SearchCubit>(context).searchDataList[0].productArName}',
+//                                   ),
+//                                   ItemCard(
+//                                     text:
+//                                         '${BlocProvider.of<SearchCubit>(context).searchDataList[0].productEnName}',
+//                                   ),
+//                                   ItemCard(
+//                                     text:
+//                                         BlocProvider.of<SearchCubit>(context).searchDataList[0].productCode,
+//                                     labelText: 'Item code ',
+//                                   ),
+//                                   ItemCard(
+//                                     text:
+//                                         '${BlocProvider.of<SearchCubit>(context).searchDataList[0].barCode } ',
+//                                     labelText: 'Item Barcode',
+//                                   ),
+//                                   ItemCard(
+//                                     text:
+//                                         '${BlocProvider.of<SearchCubit>(context).searchDataList[0].stockQuantity } ',
+//                                     labelText: 'كميه الصنف/Item OTY',
+//                                   ),
+//                                   ItemCard(
+//                                     text:
+//                                         '${BlocProvider.of<SearchCubit>(context).searchDataList[0].price}',
+//                                     labelText: 'Price/السعر',
+//                                   ),
+//                                 ],
+//                               )
+//                             : Container(),
+//                   ),
+//                   // InkWell(
+//                   //   onTap: (){
+//                   //
+//                   //     Navigator.push(
+//                   //       context,
+//                   //       MaterialPageRoute(builder: (context) => SummiScan()),
+//                   //     );
+//                   //
+//                   //   },
+//                   //   child: Container(color: Colors.green,
+//                   //     child: Padding(
+//                   //       padding: const EdgeInsets.all(8.0),
+//                   //       child: Text('test',style: TextStyle(
+//                   //         color: Colors.white
+//                   //       )),
+//                   //     ),
+//                   //   ),
+//                   // )
+//                 ],
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

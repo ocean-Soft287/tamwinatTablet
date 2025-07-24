@@ -9,6 +9,7 @@ import 'package:search_appp/features/PrintOrders/presentation/pages/get_all_orde
 import 'package:search_appp/features/PrintOrders/presentation/pages/print_order_screen.dart';
 import 'package:search_appp/features/PrintOrders/presentation/pages/update_order_state_order_no.dart';
 import 'package:search_appp/core/routes/routes.dart';
+import 'package:search_appp/features/search/presentation/cubit/search_cubit.dart';
 import 'package:search_appp/features/search/presentation/screen/search_screen.dart';
 
 class AppRoutes {
@@ -16,20 +17,21 @@ class AppRoutes {
     switch (settings.name) {
       case Routes.getAllNoPrintOrderScreen:
         return MaterialPageRoute(
-          builder: (context) => 
-          BlocProvider(create: (context)=>OrderCubit(),child:  const GetAllNoPrintOrderScreen())
-          ,
+          builder: (context) => BlocProvider(
+              create: (context) => OrderCubit(),
+              child: const GetAllNoPrintOrderScreen()),
         );
 
-      case Routes.getAllOrders: 
+      case Routes.getAllOrders:
         return MaterialPageRoute(
           builder: (context) => const GetAllOrders(),
         );
 
-      case Routes.printOrderScreen: 
+      case Routes.printOrderScreen:
         return MaterialPageRoute(
-          builder: (context) =>  PrintOrderScreen(order: settings.arguments as PrintOrderModel, ),
-        
+          builder: (context) => PrintOrderScreen(
+            order: settings.arguments as PrintOrderModel,
+          ),
         );
 
       case Routes.updateOrderStateOrderNo:
@@ -46,7 +48,12 @@ class AppRoutes {
 
       case Routes.search:
         return MaterialPageRoute(
-          builder: (context) => SearchScreen(keyword: '',),
+          builder: (context) => BlocProvider(
+            create: (context) => SearchCubit(),
+            child: const SearchScreen(
+              keyword: '',
+            ),
+          ), //SearchScreen()
         );
 
       default:
